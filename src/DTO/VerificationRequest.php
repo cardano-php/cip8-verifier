@@ -2,7 +2,7 @@
 
 namespace CardanoPhp\CIP8Verifier\DTO;
 
-readonly class VerificationRequest
+class VerificationRequest
 {
     public function __construct(
         public string $signatureCbor,

@@ -100,11 +100,11 @@ Input data structure for verification requests.
 
 ```php
 new VerificationRequest(
-    string $signatureCbor,          // CBOR-encoded signature data
-    string $signatureKey,           // Public key in CBOR format
+    string $signatureCbor,                // CBOR-encoded signature data
+    string $signatureKey,                 // Public key in CBOR format
     string $challengeHex,                 // Challenge message to verify
-string $expectedSignerStakeAddress,   // Expected stake address
-    int $networkMode                // Network mode (0=testnet, 1=mainnet)
+    string $expectedSignerStakeAddress,   // Expected stake address
+    int $networkMode                      // Network mode (0=testnet, 1=mainnet)
 )
 
 // Factory method from an array
@@ -119,7 +119,7 @@ Output data structure containing verification results.
 readonly class VerificationResult {
     public bool $isValid;              // Overall validation result
     public bool $stakeAddressMatches;  // Stake address validation
-public bool $challengeMatches;     // Challenge content validation  
+    public bool $challengeMatches;     // Challenge content validation  
     public bool $signatureValidates;   // Cryptographic signature validation
 }
 
@@ -162,7 +162,7 @@ $event = [
     'signatureCbor' => '84582aa201276761646472657373...',
     'signatureKey' => 'a4010103272006215820eb59d52f...',
     'challengeHex' => '31633364353630312d386563632d...',
-'expectedSignerStakeAddress' => 'stake_test1upafv37jqjy8p...',
+    'expectedSignerStakeAddress' => 'stake_test1upafv37jqjy8p...',
     'networkMode' => 0
 ];
 

@@ -5,7 +5,7 @@ namespace CardanoPhp\CIP8Verifier\Service;
 use CardanoPhp\CIP8Verifier\Utility\Blake2bHasher;
 use SodiumException;
 
-readonly class StakeAddressGenerator
+class StakeAddressGenerator
 {
     public function __construct(
         private Bech32Encoder $bech32Encoder

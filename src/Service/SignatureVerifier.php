@@ -37,7 +37,7 @@ class SignatureVerifier
     {
         $signedPayloadHex = bin2hex($coseData->payload);
 
-                return $signedPayloadHex === $challengeHex ||
+        return $signedPayloadHex === $challengeHex ||
             $signedPayloadHex === bin2hex(Blake2bHasher::hash(hex2bin($challengeHex), 28));
     }
 

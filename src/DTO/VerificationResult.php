@@ -2,7 +2,7 @@
 
 namespace CardanoPhp\CIP8Verifier\DTO;
 
-readonly class VerificationResult
+class VerificationResult
 {
     public function __construct(
         public bool $isValid,
@@ -30,6 +30,4 @@ readonly class VerificationResult
             $signatureValidates
         );
     }
-
-
 }

@@ -17,7 +17,7 @@ $networkMode = 0;
 
 // Perform verification
 try {
-    
+
     $verifier = CIP8Verifier::create();
     $request = new VerificationRequest(
         $signatureCbor,

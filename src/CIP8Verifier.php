@@ -4,13 +4,16 @@ namespace CardanoPhp\CIP8Verifier;
 
 use CardanoPhp\CIP8Verifier\DTO\VerificationRequest;
 use CardanoPhp\CIP8Verifier\DTO\VerificationResult;
+use CardanoPhp\CIP8Verifier\Exception\InvalidPublicKeyLengthException;
+use CardanoPhp\CIP8Verifier\Exception\InvalidSignatureLengthException;
 use CardanoPhp\CIP8Verifier\Service\Bech32Encoder;
 use CardanoPhp\CIP8Verifier\Service\CoseParser;
 use CardanoPhp\CIP8Verifier\Service\PublicKeyExtractor;
 use CardanoPhp\CIP8Verifier\Service\SignatureVerifier;
 use CardanoPhp\CIP8Verifier\Service\StakeAddressGenerator;
+use SodiumException;
 
-readonly class CIP8Verifier
+class CIP8Verifier
 {
     public function __construct(
         private PublicKeyExtractor $publicKeyExtractor,
@@ -35,6 +38,11 @@ readonly class CIP8Verifier
         );
     }
 
+    /**
+     * @throws InvalidSignatureLengthException
+     * @throws InvalidPublicKeyLengthException
+     * @throws SodiumException
+     */
     public function verify(VerificationRequest $request): VerificationResult
     {
         $publicKey = $this->publicKeyExtractor->extractFromSignatureKey($request->signatureKey);
