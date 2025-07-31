@@ -1,0 +1,23 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    excludePaths:
+        - tests/*
+    ignoreErrors:
+        # Allow hex2bin results - we validate hex strings in our context
+        - '#Parameter \#1 \$cborData .* expects string, string\|false given\.#'
+        - '#Parameter \#1 \$data .* expects string, string\|false given\.#'
+        
+        # Allow CBOR object dynamic method calls - CBOR library uses dynamic methods
+        - '#Cannot call method getValue\(\) on class-string\|object\.#'
+        
+        # Allow bech32 encoder array handling
+        - '#Parameter \#2 \$data .* expects array, array\|null given\.#'
+        
+        # Allow sodium function parameters - we validate lengths before calling
+        - '#Parameter \#[13] .* of function sodium_crypto_sign_verify_detached expects non-empty-string, string given\.#'
+        
+        # Allow missing type hints for iterables
+        -
+            identifier: missingType.iterableValue

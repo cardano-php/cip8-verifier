@@ -7,7 +7,7 @@ A robust, production-ready PHP library for verifying Cardano CIP-8 signed messag
 
 ## Features
 
-- ✅ **Full CIP-8 Compliance** - Complete implementation of Cardano's CIP-8 message signing standard
+- ✅ **Full CIP-8 Compliance** - Complete implementation of Cardano's CIP-8 message verification standard
 - 🔒 **Cryptographically Secure** - Uses Ed25519 signature verification with proper validation
 - 🏗️ **Clean Architecture** - Built following SOLID principles with dependency injection
 - 🛡️ **Type Safe** - Full PHP 8.1+ type hints and readonly classes

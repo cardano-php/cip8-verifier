@@ -19,12 +19,23 @@
             "CardanoPhp\\CIP8Verifier\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require-dev": {
-        "pestphp/pest": "^3.8"
+        "pestphp/pest": "^3.8",
+        "phpstan/phpstan": "^1.10"
     },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "test": "pest",
+        "test:coverage": "@php -r \"if (extension_loaded('xdebug') || extension_loaded('pcov')) { system('vendor/bin/pest --coverage --min=80'); } else { echo 'Code coverage requires Xdebug or PCOV extension. Install with: composer install --dev && enable Xdebug or PCOV.\\n'; system('vendor/bin/pest'); }\"",
+        "analyze": "phpstan analyse src --level=8"
     }
 }
