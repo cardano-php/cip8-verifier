@@ -1,0 +1,21 @@
+{
+    "name": "cardano-php/cip8-verifier",
+    "description": "A PHP library to verify Cardano CIP-8 signed messages.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["cardano", "cip8", "signature", "verification"],
+    "authors": [
+        {
+            "name": "Latheesan Kanesamoorthy"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "spomky-labs/cbor-php": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "CardanoPhp\\CIP8Verifier\\": "src/"
+        }
+    }
+}
