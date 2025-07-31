@@ -49,15 +49,14 @@ describe('CIP8 Verification Feature', function () {
             'networkMode' => 0
         ];
 
-        $result = CIP8Verifier::verifySignature($event);
+        $request = VerificationRequest::fromArray($event);
+        $result = CIP8Verifier::create()->verify($request);
 
-        expect($result)->toBe([
-            'isValid' => true,
-            'walletMatches' => true,
-            'payloadMatches' => true,
-            'signatureValidates' => true,
-            'error' => null
-        ]);
+        expect($result->isValid)->toBeTrue();
+        expect($result->walletMatches)->toBeTrue();
+        expect($result->payloadMatches)->toBeTrue();
+        expect($result->signatureValidates)->toBeTrue();
+        expect($result->error)->toBeNull();
     });
 
     test('verification fails when wallet address does not match', function () {

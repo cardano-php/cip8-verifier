@@ -44,10 +44,9 @@ All notable changes to this project will be documented in this file.
 - **`CborHelper`** - CBOR encoding/decoding utilities with RFC 9052 compliance
 
 #### API Design
-- **Multiple API Patterns** - Support for both modern type-safe and legacy array-based APIs
+- **Type-Safe API** - Clean, modern type-safe API design
 - **Factory Methods** - Convenient object creation patterns
 - **Fluent Interface** - Clean, readable method chaining where appropriate
-- **Backward Compatibility** - Legacy `verifySignature()` method preserved for existing integrations
 
 #### Developer Experience
 - **Comprehensive Documentation** - Complete API reference with examples

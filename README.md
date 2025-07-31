@@ -77,12 +77,6 @@ $verifier = CIP8Verifier::create();
 
 // Verify with type-safe DTO
 $result = $verifier->verify(VerificationRequest $request): VerificationResult
-
-// Verify with array (legacy compatibility)
-$result = $verifier->verifyFromArray(array $event): array
-
-// Static method for quick verification
-$result = CIP8Verifier::verifySignature(array $event): array
 ```
 
 #### `VerificationRequest` (readonly DTO)
@@ -159,7 +153,8 @@ $event = [
     'networkMode' => 0
 ];
 
-$result = CIP8Verifier::verifySignature($event);
+$request = VerificationRequest::fromArray($event);
+$result = CIP8Verifier::create()->verify($request);
 var_dump($result);
 ```
 

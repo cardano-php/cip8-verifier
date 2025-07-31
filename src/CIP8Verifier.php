@@ -59,17 +59,4 @@ readonly class CIP8Verifier
             return VerificationResult::createInvalid($e->getMessage());
         }
     }
-
-    public function verifyFromArray(array $event): array
-    {
-        $request = VerificationRequest::fromArray($event);
-        $result = $this->verify($request);
-
-        return $result->toArray();
-    }
-
-    public static function verifySignature(array $event): array
-    {
-        return self::create()->verifyFromArray($event);
-    }
 }
