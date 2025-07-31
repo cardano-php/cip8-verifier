@@ -152,29 +152,6 @@ The library follows a modular architecture with focused service classes:
 
 ## Usage Examples
 
-### Basic Verification
-
-```php
-use CardanoPhp\CIP8Verifier\CIP8Verifier;
-
-// Using the array-based API
-$event = [
-    'signatureCbor' => '84582aa201276761646472657373...',
-    'signatureKey' => 'a4010103272006215820eb59d52f...',
-    'challengeHex' => '31633364353630312d386563632d...',
-    'expectedSignerStakeAddress' => 'stake_test1upafv37jqjy8p...',
-    'networkMode' => 0
-];
-
-try {
-    $request = VerificationRequest::fromArray($event);
-    $result = CIP8Verifier::create()->verify($request);
-    var_dump($result);
-} catch (CIP8VerificationException $e) {
-    echo "Verification error: " . $e->getMessage();
-}
-```
-
 ### Error Handling
 
 ```php
