@@ -1,7 +1,6 @@
 <?php
 
 // Load composer
-// Note: This is not required if package was installed via the 'composer require cardano-php/cip8-verifier'
 require 'vendor/autoload.php';
 
 // Imports
