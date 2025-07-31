@@ -1,0 +1,138 @@
+name: 📖 Documentation Issue
+description: Report an issue with documentation or suggest documentation improvements
+title: "[Docs]: "
+labels: ["documentation", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve our documentation! Clear documentation is essential for a great developer experience.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this documentation issue hasn't been reported before
+          required: true
+        - label: I have checked the latest version of the documentation
+          required: true
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation issue is this?
+      options:
+        - README.md
+        - API Reference/Code Comments
+        - Installation Instructions
+        - Usage Examples
+        - Architecture Documentation
+        - CHANGELOG.md
+        - Code Comments
+        - Error Messages
+        - Other (please specify below)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What kind of documentation issue is this?
+      options:
+        - Missing information
+        - Incorrect information
+        - Unclear/confusing content
+        - Outdated information
+        - Typo/grammar error
+        - Missing examples
+        - Poor formatting
+        - Broken links
+        - Suggestion for improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where is the documentation issue located?
+      placeholder: |
+        Please provide:
+        - File name (e.g., README.md, src/CIP8Verifier.php)
+        - Section or line number if applicable
+        - URL if it's online documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_content
+    attributes:
+      label: Current Content
+      description: What does the current documentation say? (copy/paste the problematic section)
+      placeholder: |
+        Copy and paste the current content that needs to be improved...
+
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: Issue Description
+      description: Describe the problem with the current documentation
+      placeholder: |
+        Clearly describe what's wrong, unclear, or missing...
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_improvement
+    attributes:
+      label: Suggested Improvement
+      description: How would you improve this documentation?
+      placeholder: |
+        Provide your suggested changes, corrections, or additions...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: User Context
+      description: What were you trying to accomplish when you found this issue?
+      placeholder: |
+        Describe what you were trying to do that led you to discover this documentation issue...
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit from this documentation improvement?
+      options:
+        - New users/beginners
+        - Experienced developers
+        - Library contributors
+        - API integrators
+        - All users
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be willing to help improve this documentation?
+      options:
+        - label: I would be willing to submit a pull request with the improvements
+        - label: I would be willing to review proposed changes
+        - label: I would be willing to test the improved documentation
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other context that would help us understand and address this documentation issue
+      placeholder: Screenshots, related issues, or other relevant information...

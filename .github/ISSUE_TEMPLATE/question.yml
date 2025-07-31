@@ -1,0 +1,167 @@
+name: ❓ Question / Support
+description: Ask a question about using the CIP8 Verifier library
+title: "[Question]: "
+labels: ["question", "support"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in the CIP8 Verifier library! Please provide details about your question.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you've checked these resources first
+      options:
+        - label: I have read the [README.md](https://github.com/cardano-php/cip8-verifier/blob/main/README.md) documentation
+          required: true
+        - label: I have checked the [demo.php](https://github.com/cardano-php/cip8-verifier/blob/main/demo.php) example
+          required: true
+        - label: I have searched existing issues to see if my question has been answered
+          required: true
+
+  - type: dropdown
+    id: question_type
+    attributes:
+      label: Question Type
+      description: What type of question is this?
+      options:
+        - How to use the library
+        - Understanding verification results
+        - Wallet integration help
+        - Performance questions
+        - Configuration assistance
+        - Troubleshooting
+        - Best practices
+        - Cardano/CIP-8 concepts
+        - PHP implementation details
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: |
+        Please ask your question clearly and provide as much context as possible...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Background
+      description: What are you trying to accomplish? What's your use case?
+      placeholder: |
+        Describe what you're building or trying to achieve:
+        - What type of application are you developing?
+        - How are you planning to use CIP-8 verification?
+        - What specific challenge are you facing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What Have You Tried?
+      description: What approaches have you already attempted?
+      placeholder: |
+        Describe what you've already tried:
+        - Code you've written
+        - Documentation you've consulted
+        - Solutions you've attempted
+
+  - type: textarea
+    id: code_sample
+    attributes:
+      label: Relevant Code Sample
+      description: Share any relevant code you're working with (if applicable)
+      placeholder: |
+        ```php
+        <?php
+        use CardanoPhp\CIP8Verifier\CIP8Verifier;
+        
+        // Your code here...
+        ```
+      render: php
+
+  - type: dropdown
+    id: experience_level
+    attributes:
+      label: Experience Level
+      description: How would you describe your experience with PHP and Cardano?
+      options:
+        - Beginner with both PHP and Cardano
+        - Experienced with PHP, new to Cardano
+        - Experienced with Cardano, new to PHP
+        - Experienced with both
+    validations:
+      required: true
+
+  - type: input
+    id: php_version
+    attributes:
+      label: PHP Version
+      description: What version of PHP are you using?
+      placeholder: "8.1, 8.2, 8.3, etc."
+
+  - type: input
+    id: library_version
+    attributes:
+      label: Library Version
+      description: What version of CIP8 Verifier are you using?
+      placeholder: "1.0.0"
+
+  - type: dropdown
+    id: wallet_context
+    attributes:
+      label: Wallet Context (if applicable)
+      description: If your question relates to wallet integration, which wallet type?
+      options:
+        - Not applicable
+        - Lite wallet (Nami, Eternl, etc.)
+        - Hardware wallet (Ledger)
+        - Custom wallet implementation
+        - Multiple wallet types
+        - Not sure
+
+  - type: dropdown
+    id: network_context
+    attributes:
+      label: Network Context (if applicable)
+      description: Which Cardano network are you working with?
+      options:
+        - Not applicable
+        - Testnet
+        - Mainnet
+        - Both
+        - Not sure
+
+  - type: textarea
+    id: expected_outcome
+    attributes:
+      label: Expected Outcome
+      description: What do you expect or hope to achieve?
+      placeholder: |
+        Describe what you're hoping to accomplish or what result you expect...
+
+  - type: checkboxes
+    id: help_improve
+    attributes:
+      label: Documentation Feedback
+      description: Would better documentation have helped answer your question?
+      options:
+        - label: This question could be answered with better documentation
+        - label: I would be willing to help improve the documentation based on the answer
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other information that might be helpful
+      placeholder: Error messages, environment details, related resources, etc...

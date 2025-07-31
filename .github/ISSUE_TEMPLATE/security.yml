@@ -1,0 +1,156 @@
+name: 🔒 Security Issue
+description: Report a security vulnerability (use this for serious security issues only)
+title: "[Security]: "
+labels: ["security", "critical"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **IMPORTANT SECURITY NOTICE** ⚠️
+        
+        If this is a serious security vulnerability that could compromise user data or systems, 
+        please consider reporting it privately first by emailing the maintainers directly.
+        
+        Only use this template for security issues that:
+        - Are not immediately exploitable
+        - Need community discussion
+        - Are theoretical concerns
+        - Require broader input
+
+  - type: checkboxes
+    id: security_confirmation
+    attributes:
+      label: Security Issue Confirmation
+      description: Please confirm this is appropriate for public disclosure
+      options:
+        - label: This issue does NOT involve an immediately exploitable vulnerability
+          required: true
+        - label: I understand that serious vulnerabilities should be reported privately first
+          required: true
+        - label: I have considered the potential impact of public disclosure
+          required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Security Severity
+      description: How would you rate the severity of this security concern?
+      options:
+        - Low - Theoretical concern or minor issue
+        - Medium - Could potentially be exploited under specific conditions
+        - High - Significant security risk
+        - Critical - Immediate threat to user security
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Security Category
+      description: What type of security issue is this?
+      options:
+        - Cryptographic vulnerability
+        - Input validation issue
+        - Memory safety concern
+        - Dependency vulnerability
+        - Information disclosure
+        - Access control issue
+        - Configuration security
+        - Other (please specify below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Security Issue Description
+      description: Describe the security concern in detail
+      placeholder: |
+        Provide a clear description of the security issue...
+        
+        Please include:
+        - What the vulnerability is
+        - How it could potentially be exploited
+        - What systems or data could be affected
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: What could happen if this security issue is exploited?
+      placeholder: |
+        Describe the potential impact:
+        - What could an attacker achieve?
+        - What data or systems could be compromised?
+        - How many users could be affected?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: How can this security issue be reproduced? (Be careful not to provide a full exploit)
+      placeholder: |
+        Provide general steps to reproduce the issue without creating a full exploit:
+        1. Set up environment with...
+        2. Configure the library to...
+        3. Observe that...
+
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested Mitigation
+      description: Do you have suggestions for how to fix or mitigate this issue?
+      placeholder: |
+        If you have ideas for how to address this security issue, please share them...
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Temporary Workaround
+      description: Is there a temporary workaround users can implement?
+      placeholder: |
+        If users can protect themselves in the meantime, describe how...
+
+  - type: input
+    id: affected_versions
+    attributes:
+      label: Affected Versions
+      description: Which versions of the library are affected?
+      placeholder: "1.0.0, or 1.x.x, or all versions"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Relevant environment information
+      placeholder: |
+        PHP Version:
+        Operating System:
+        Library Version:
+        Any relevant configuration:
+
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: Responsible Disclosure
+      description: Please confirm your understanding of responsible disclosure
+      options:
+        - label: I will not publicly share exploitation details until a fix is available
+          required: true
+        - label: I understand that the maintainers may need time to develop and test a fix
+          required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information about this security issue
+      placeholder: References to similar issues, related research, etc...

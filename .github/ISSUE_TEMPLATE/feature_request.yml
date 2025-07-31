@@ -1,0 +1,147 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for the CIP8 Verifier library
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! Please provide detailed information about your request.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting a feature request
+      options:
+        - label: I have searched existing issues to ensure this feature hasn't been requested before
+          required: true
+        - label: I have read the [README.md](https://github.com/cardano-php/cip8-verifier/blob/main/README.md) documentation
+          required: true
+        - label: This feature aligns with the library's scope (CIP-8 signature verification)
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: What problem does this feature solve? What use case are you trying to address?
+      placeholder: |
+        Describe the problem or limitation you're experiencing that this feature would solve...
+        
+        Example: "When verifying signatures from wallet X, I need to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your proposed solution in detail
+      placeholder: |
+        Describe how you envision this feature working...
+        
+        Example: "Add a new method that..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: |
+        Describe any alternative solutions or workarounds you've considered...
+
+  - type: dropdown
+    id: feature_type
+    attributes:
+      label: Feature Type
+      description: What type of feature is this?
+      options:
+        - New API method/class
+        - Performance improvement
+        - Developer experience enhancement
+        - Additional wallet support
+        - New validation option
+        - Documentation improvement
+        - Testing enhancement
+        - Other (please specify below)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would be helpful
+        - High - Important for my use case
+        - Critical - Blocking my implementation
+    validations:
+      required: true
+
+  - type: textarea
+    id: api_design
+    attributes:
+      label: Proposed API Design
+      description: If applicable, show how you envision the API would look
+      placeholder: |
+        ```php
+        // Example of how the new feature would be used
+        $verifier = CIP8Verifier::create();
+        $result = $verifier->newMethod($parameters);
+        ```
+      render: php
+
+  - type: textarea
+    id: use_cases
+    attributes:
+      label: Use Cases
+      description: Describe specific use cases where this feature would be beneficial
+      placeholder: |
+        1. Use case 1: When developers need to...
+        2. Use case 2: In scenarios where...
+        3. Use case 3: For applications that...
+
+  - type: dropdown
+    id: breaking_change
+    attributes:
+      label: Breaking Change
+      description: Would this feature require breaking changes to the existing API?
+      options:
+        - No - Fully backward compatible
+        - Minor - Small breaking changes with easy migration
+        - Major - Significant breaking changes
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Ideas
+      description: Do you have ideas about how this could be implemented?
+      placeholder: |
+        Share any thoughts on implementation approach, if you have them...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be interested in contributing to this feature?
+      options:
+        - label: I would be willing to implement this feature myself
+        - label: I would be willing to help test this feature
+        - label: I would be willing to help with documentation
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or relevant information
+      placeholder: Add any other context about the feature request here...

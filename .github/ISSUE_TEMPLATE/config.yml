@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚨 Critical Security Vulnerability
+    url: https://github.com/cardano-php/cip8-verifier/security/advisories/new
+    about: Report critical security vulnerabilities privately through GitHub Security Advisories
+  - name: 💬 GitHub Discussions
+    url: https://github.com/cardano-php/cip8-verifier/discussions
+    about: Ask questions, share ideas, and discuss the library with the community
+  - name: 📋 Cardano CIP-8 Specification
+    url: https://cips.cardano.org/cips/cip8/
+    about: Official Cardano CIP-8 specification for message signing
