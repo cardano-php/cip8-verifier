@@ -2,6 +2,7 @@
 
 use CardanoPhp\CIP8Verifier\CIP8Verifier;
 use CardanoPhp\CIP8Verifier\DTO\VerificationRequest;
+use CardanoPhp\CIP8Verifier\Exception\CIP8VerificationException;
 
 describe('CIP8 Verification Feature', function () {
     test('complete end-to-end verification with demo data succeeds', function () {
@@ -27,7 +28,7 @@ describe('CIP8 Verification Feature', function () {
         expect($result->walletMatches)->toBeTrue();
         expect($result->payloadMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
-        expect($result->error)->toBeNull();
+
 
         // Verify toArray() output matches expected structure
         $arrayResult = $result->toArray();
@@ -35,8 +36,7 @@ describe('CIP8 Verification Feature', function () {
             'isValid' => true,
             'walletMatches' => true,
             'payloadMatches' => true,
-            'signatureValidates' => true,
-            'error' => null
+            'signatureValidates' => true
         ]);
     });
 
@@ -56,7 +56,7 @@ describe('CIP8 Verification Feature', function () {
         expect($result->walletMatches)->toBeTrue();
         expect($result->payloadMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
-        expect($result->error)->toBeNull();
+
     });
 
     test('verification fails when wallet address does not match', function () {
@@ -75,7 +75,7 @@ describe('CIP8 Verification Feature', function () {
         expect($result->walletMatches)->toBeFalse();
         expect($result->payloadMatches)->toBeTrue(); // Payload should still match
         expect($result->signatureValidates)->toBeTrue(); // Signature should still be valid
-        expect($result->error)->toBeNull();
+
     });
 
     test('verification fails when network mode is incorrect', function () {
@@ -94,7 +94,7 @@ describe('CIP8 Verification Feature', function () {
         expect($result->walletMatches)->toBeFalse(); // Wallet won't match with wrong network
         expect($result->payloadMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
-        expect($result->error)->toBeNull();
+
     });
 
     test('verification fails when payload challenge does not match', function () {
@@ -113,10 +113,10 @@ describe('CIP8 Verification Feature', function () {
         expect($result->walletMatches)->toBeTrue();
         expect($result->payloadMatches)->toBeFalse(); // Payload should not match
         expect($result->signatureValidates)->toBeTrue();
-        expect($result->error)->toBeNull();
+
     });
 
-    test('verification handles invalid CBOR signature gracefully', function () {
+    test('verification throws exception for invalid CBOR signature', function () {
         $verifier = CIP8Verifier::create();
         $request = new VerificationRequest(
             "ff", // Valid hex but invalid CBOR
@@ -126,17 +126,10 @@ describe('CIP8 Verification Feature', function () {
             0
         );
 
-        $result = $verifier->verify($request);
-
-        expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse();
-        expect($result->payloadMatches)->toBeFalse();
-        expect($result->signatureValidates)->toBeFalse();
-        expect($result->error)->toBeString();
-        expect(strlen($result->error))->toBeGreaterThan(0);
+        expect(fn() => $verifier->verify($request))->toThrow(Exception::class);
     });
 
-    test('verification handles invalid signature key gracefully', function () {
+    test('verification throws exception for invalid signature key', function () {
         $verifier = CIP8Verifier::create();
         $request = new VerificationRequest(
             "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108",
@@ -146,14 +139,7 @@ describe('CIP8 Verification Feature', function () {
             0
         );
 
-        $result = $verifier->verify($request);
-
-        expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse();
-        expect($result->payloadMatches)->toBeFalse();
-        expect($result->signatureValidates)->toBeFalse();
-        expect($result->error)->toBeString();
-        expect(strlen($result->error))->toBeGreaterThan(0);
+        expect(fn() => $verifier->verify($request))->toThrow(Exception::class);
     });
 
     test('verification with modified signature fails signature validation', function () {
@@ -178,7 +164,7 @@ describe('CIP8 Verification Feature', function () {
         expect($result->walletMatches)->toBeTrue(); // Wallet should still match
         expect($result->payloadMatches)->toBeTrue(); // Payload should still match
         expect($result->signatureValidates)->toBeFalse(); // Signature should fail
-        expect($result->error)->toBeNull();
+
     });
 
     test('verification works correctly across multiple calls', function () {

@@ -38,9 +38,11 @@ require 'vendor/autoload.php';
 
 use CardanoPhp\CIP8Verifier\CIP8Verifier;
 use CardanoPhp\CIP8Verifier\DTO\VerificationRequest;
+use CardanoPhp\CIP8Verifier\Exception\CIP8VerificationException;
 
-// Your verification data
-$request = new VerificationRequest(
+try {
+    // Your verification data
+    $request = new VerificationRequest(
     signatureCbor: "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108",
     signatureKey: "a4010103272006215820eb59d52fbd257d3f8f8f51dd59b2013092763fc9cbc109d32d837920be5e62be",
     walletAuthChallengeHex: "31633364353630312d386563632d343264662d623162302d306132393464306134656435",
@@ -59,7 +61,12 @@ if ($result->isValid) {
     echo "Payload matches: " . ($result->payloadMatches ? 'Yes' : 'No') . "\n";
     echo "Signature validates: " . ($result->signatureValidates ? 'Yes' : 'No') . "\n";
 } else {
-    echo "❌ Signature verification failed: " . $result->error . "\n";
+    echo "❌ Signature verification failed\n";
+}
+} catch (CIP8VerificationException $e) {
+    echo "❌ Verification error: " . $e->getMessage() . "\n";
+} catch (Throwable $e) {
+    echo "❌ Unexpected error: " . $e->getMessage() . "\n";
 }
 ```
 
@@ -106,15 +113,13 @@ readonly class VerificationResult {
     public bool $walletMatches;        // Wallet address validation
     public bool $payloadMatches;       // Payload content validation  
     public bool $signatureValidates;   // Cryptographic signature validation
-    public string|null $error;         // Error message if validation failed
 }
 
 // Convert to array
 $result->toArray(): array
 
-// Factory methods
+// Factory method
 VerificationResult::createValid(bool $walletMatches, bool $payloadMatches, bool $signatureValidates): VerificationResult
-VerificationResult::createInvalid(string $error): VerificationResult
 ```
 
 ### Exception Hierarchy
@@ -144,7 +149,7 @@ The library follows a modular architecture with focused service classes:
 ```php
 use CardanoPhp\CIP8Verifier\CIP8Verifier;
 
-// Using the legacy array-based API
+// Using the array-based API
 $event = [
     'signatureCbor' => '84582aa201276761646472657373...',
     'signatureKey' => 'a4010103272006215820eb59d52f...',
@@ -153,9 +158,13 @@ $event = [
     'networkMode' => 0
 ];
 
-$request = VerificationRequest::fromArray($event);
-$result = CIP8Verifier::create()->verify($request);
-var_dump($result);
+try {
+    $request = VerificationRequest::fromArray($event);
+    $result = CIP8Verifier::create()->verify($request);
+    var_dump($result);
+} catch (CIP8VerificationException $e) {
+    echo "Verification error: " . $e->getMessage();
+}
 ```
 
 ### Error Handling
@@ -170,11 +179,11 @@ try {
     $result = $verifier->verify($request);
     
     if (!$result->isValid) {
-        // Handle verification failure
-        error_log("CIP8 verification failed: " . $result->error);
+        // Handle validation failure (invalid signature, mismatched wallet, etc.)
+        error_log("CIP8 verification failed");
     }
 } catch (CIP8VerificationException $e) {
-    // Handle specific CIP8 errors
+    // Handle specific CIP8 errors (invalid input format, parsing errors, etc.)
     error_log("CIP8 error: " . $e->getMessage());
 } catch (Throwable $e) {
     // Handle unexpected errors

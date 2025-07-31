@@ -8,8 +8,7 @@ readonly class VerificationResult
         public bool $isValid,
         public bool $walletMatches,
         public bool $payloadMatches,
-        public bool $signatureValidates,
-        public string|null $error = null
+        public bool $signatureValidates
     ) {}
 
     public function toArray(): array
@@ -18,8 +17,7 @@ readonly class VerificationResult
             'isValid' => $this->isValid,
             'walletMatches' => $this->walletMatches,
             'payloadMatches' => $this->payloadMatches,
-            'signatureValidates' => $this->signatureValidates,
-            'error' => $this->error
+            'signatureValidates' => $this->signatureValidates
         ];
     }
 
@@ -33,8 +31,5 @@ readonly class VerificationResult
         );
     }
 
-    public static function createInvalid(string $error): self
-    {
-        return new self(false, false, false, false, $error);
-    }
+
 }

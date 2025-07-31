@@ -9,7 +9,6 @@ use CardanoPhp\CIP8Verifier\Service\CoseParser;
 use CardanoPhp\CIP8Verifier\Service\PublicKeyExtractor;
 use CardanoPhp\CIP8Verifier\Service\SignatureVerifier;
 use CardanoPhp\CIP8Verifier\Service\StakeAddressGenerator;
-use Throwable;
 
 readonly class CIP8Verifier
 {
@@ -38,25 +37,21 @@ readonly class CIP8Verifier
 
     public function verify(VerificationRequest $request): VerificationResult
     {
-        try {
-            $publicKey = $this->publicKeyExtractor->extractFromSignatureKey($request->signatureKey);
+        $publicKey = $this->publicKeyExtractor->extractFromSignatureKey($request->signatureKey);
 
-            $generatedStakeAddress = $this->stakeAddressGenerator->generateStakeAddress(
-                $publicKey,
-                $request->networkMode
-            );
+        $generatedStakeAddress = $this->stakeAddressGenerator->generateStakeAddress(
+            $publicKey,
+            $request->networkMode
+        );
 
-            $walletMatches = $generatedStakeAddress === $request->stakeKeyAddress;
+        $walletMatches = $generatedStakeAddress === $request->stakeKeyAddress;
 
-            $coseData = $this->coseParser->parseCoseSign1(hex2bin($request->signatureCbor));
+        $coseData = $this->coseParser->parseCoseSign1(hex2bin($request->signatureCbor));
 
-            $signatureValidates = $this->signatureVerifier->verifySignature($coseData, $publicKey);
+        $signatureValidates = $this->signatureVerifier->verifySignature($coseData, $publicKey);
 
-            $payloadMatches = $this->signatureVerifier->verifyPayload($coseData, $request->walletAuthChallengeHex);
+        $payloadMatches = $this->signatureVerifier->verifyPayload($coseData, $request->walletAuthChallengeHex);
 
-            return VerificationResult::createValid($walletMatches, $payloadMatches, $signatureValidates);
-        } catch (Throwable $e) {
-            return VerificationResult::createInvalid($e->getMessage());
-        }
+        return VerificationResult::createValid($walletMatches, $payloadMatches, $signatureValidates);
     }
 }
