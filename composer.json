@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": ">=8.0",
+        "ext-sodium": "*",
         "spomky-labs/cbor-php": "^3.1"
     },
     "autoload": {
