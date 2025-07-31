@@ -9,24 +9,24 @@ describe('CIP8 Verification Feature', function () {
         // This test replicates the exact demo.php scenario
         $signatureCbor = "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108";
         $signatureKey = "a4010103272006215820eb59d52fbd257d3f8f8f51dd59b2013092763fc9cbc109d32d837920be5e62be";
-        $walletAuthChallengeHex = "31633364353630312d386563632d343264662d623162302d306132393464306134656435";
-        $stakeKeyAddress = "stake_test1upafv37jqjy8pgrjdauxyxrruqme0hqhh9ryww34mm297agc0f3vc";
+        $challengeHex = "31633364353630312d386563632d343264662d623162302d306132393464306134656435";
+        $expectedSignerStakeAddress = "stake_test1upafv37jqjy8pgrjdauxyxrruqme0hqhh9ryww34mm297agc0f3vc";
         $networkMode = 0;
 
         $verifier = CIP8Verifier::create();
         $request = new VerificationRequest(
             $signatureCbor,
             $signatureKey,
-            $walletAuthChallengeHex,
-            $stakeKeyAddress,
+            $challengeHex,
+            $expectedSignerStakeAddress,
             $networkMode,
         );
         $result = $verifier->verify($request);
 
         // Verify all the expected results match demo.php output
         expect($result->isValid)->toBeTrue();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
 
 
@@ -34,8 +34,8 @@ describe('CIP8 Verification Feature', function () {
         $arrayResult = $result->toArray();
         expect($arrayResult)->toBe([
             'isValid' => true,
-            'walletMatches' => true,
-            'payloadMatches' => true,
+            'stakeAddressMatches' => true,
+            'challengeMatches' => true,
             'signatureValidates' => true
         ]);
     });
@@ -44,8 +44,8 @@ describe('CIP8 Verification Feature', function () {
         $event = [
             'signatureCbor' => "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108",
             'signatureKey' => "a4010103272006215820eb59d52fbd257d3f8f8f51dd59b2013092763fc9cbc109d32d837920be5e62be",
-            'walletAuthChallengeHex' => "31633364353630312d386563632d343264662d623162302d306132393464306134656435",
-            'stakeKeyAddress' => "stake_test1upafv37jqjy8pgrjdauxyxrruqme0hqhh9ryww34mm297agc0f3vc",
+            'challengeHex' => "31633364353630312d386563632d343264662d623162302d306132393464306134656435",
+            'expectedSignerStakeAddress' => "stake_test1upafv37jqjy8pgrjdauxyxrruqme0hqhh9ryww34mm297agc0f3vc",
             'networkMode' => 0
         ];
 
@@ -53,8 +53,8 @@ describe('CIP8 Verification Feature', function () {
         $result = CIP8Verifier::create()->verify($request);
 
         expect($result->isValid)->toBeTrue();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -72,8 +72,8 @@ describe('CIP8 Verification Feature', function () {
         $result = $verifier->verify($request);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse();
-        expect($result->payloadMatches)->toBeTrue(); // Payload should still match
+        expect($result->stakeAddressMatches)->toBeFalse();
+        expect($result->challengeMatches)->toBeTrue(); // Payload should still match
         expect($result->signatureValidates)->toBeTrue(); // Signature should still be valid
 
     });
@@ -91,8 +91,8 @@ describe('CIP8 Verification Feature', function () {
         $result = $verifier->verify($request);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse(); // Wallet won't match with wrong network
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeFalse(); // Wallet won't match with wrong network
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -110,8 +110,8 @@ describe('CIP8 Verification Feature', function () {
         $result = $verifier->verify($request);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeFalse(); // Payload should not match
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeFalse(); // Payload should not match
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -161,8 +161,8 @@ describe('CIP8 Verification Feature', function () {
         $result = $verifier->verify($request);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeTrue(); // Wallet should still match
-        expect($result->payloadMatches)->toBeTrue(); // Payload should still match
+        expect($result->stakeAddressMatches)->toBeTrue(); // Wallet should still match
+        expect($result->challengeMatches)->toBeTrue(); // Payload should still match
         expect($result->signatureValidates)->toBeFalse(); // Signature should fail
 
     });

@@ -12,8 +12,8 @@ describe('VerificationResult', function () {
         );
 
         expect($result->isValid)->toBeTrue();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -32,8 +32,8 @@ describe('VerificationResult', function () {
 
         expect($array)->toBe([
             'isValid' => true,
-            'walletMatches' => true,
-            'payloadMatches' => false,
+            'stakeAddressMatches' => true,
+            'challengeMatches' => false,
             'signatureValidates' => true
         ]);
     });
@@ -44,8 +44,8 @@ describe('VerificationResult', function () {
         $result = VerificationResult::createValid(true, true, true);
 
         expect($result->isValid)->toBeTrue();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -54,8 +54,8 @@ describe('VerificationResult', function () {
         $result = VerificationResult::createValid(true, false, true);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeFalse();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeFalse();
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -64,8 +64,8 @@ describe('VerificationResult', function () {
         $result = VerificationResult::createValid(false, true, true);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeFalse();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
 
     });
@@ -74,8 +74,8 @@ describe('VerificationResult', function () {
         $result = VerificationResult::createValid(true, true, false);
 
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeFalse();
 
     });

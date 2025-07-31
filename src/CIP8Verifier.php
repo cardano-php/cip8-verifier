@@ -44,14 +44,14 @@ readonly class CIP8Verifier
             $request->networkMode
         );
 
-        $walletMatches = $generatedStakeAddress === $request->stakeKeyAddress;
+        $stakeAddressMatches = $generatedStakeAddress === $request->expectedSignerStakeAddress;
 
         $coseData = $this->coseParser->parseCoseSign1(hex2bin($request->signatureCbor));
 
         $signatureValidates = $this->signatureVerifier->verifySignature($coseData, $publicKey);
 
-        $payloadMatches = $this->signatureVerifier->verifyPayload($coseData, $request->walletAuthChallengeHex);
+        $challengeMatches = $this->signatureVerifier->verifyPayload($coseData, $request->challengeHex);
 
-        return VerificationResult::createValid($walletMatches, $payloadMatches, $signatureValidates);
+        return VerificationResult::createValid($stakeAddressMatches, $challengeMatches, $signatureValidates);
     }
 }

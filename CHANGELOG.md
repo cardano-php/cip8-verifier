@@ -51,7 +51,7 @@ All notable changes to this project will be documented in this file.
 #### Developer Experience
 - **Comprehensive Documentation** - Complete API reference with examples
 - **Clear Error Messages** - Descriptive error reporting for debugging
-- **Working Demo** - Functional [example code](demo.php) with real test data
+- **Working Demo** - Functional [example code](demo/backend.php) with real test data
 
 #### Security Features
 - **Input Validation** - Comprehensive validation of all cryptographic inputs

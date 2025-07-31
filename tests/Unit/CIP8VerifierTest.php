@@ -65,8 +65,8 @@ describe('CIP8Verifier', function () {
         $result = $verifier->verify($request);
         
         expect($result->isValid)->toBeTrue();
-        expect($result->walletMatches)->toBeTrue();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeTrue();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
     });
 
@@ -84,8 +84,8 @@ describe('CIP8Verifier', function () {
         $result = $verifier->verify($request);
         
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeFalse();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
     });
 
@@ -103,8 +103,8 @@ describe('CIP8Verifier', function () {
         $result = $verifier->verify($request);
         
         expect($result->isValid)->toBeFalse();
-        expect($result->walletMatches)->toBeFalse();
-        expect($result->payloadMatches)->toBeTrue();
+        expect($result->stakeAddressMatches)->toBeFalse();
+        expect($result->challengeMatches)->toBeTrue();
         expect($result->signatureValidates)->toBeTrue();
     });
 

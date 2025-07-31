@@ -33,12 +33,12 @@ class SignatureVerifier
     /**
      * @throws SodiumException
      */
-    public function verifyPayload(CoseSign1 $coseData, string $walletAuthChallengeHex): bool
+    public function verifyPayload(CoseSign1 $coseData, string $challengeHex): bool
     {
         $signedPayloadHex = bin2hex($coseData->payload);
 
-        return $signedPayloadHex === $walletAuthChallengeHex ||
-               $signedPayloadHex === bin2hex(Blake2bHasher::hash(hex2bin($walletAuthChallengeHex), 28));
+                return $signedPayloadHex === $challengeHex ||
+            $signedPayloadHex === bin2hex(Blake2bHasher::hash(hex2bin($challengeHex), 28));
     }
 
     /**

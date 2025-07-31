@@ -31,6 +31,8 @@ composer require cardano-php/cip8-verifier
 
 ## Quick Start
 
+_Please refer to the [frontend example](demo/frontend.html) code to see how to obtain the `signatureCbor`, `signatureKey`, `challengeHex`, `expectedSignerStakeAddress` and `networkMode` values._
+
 ```php
 <?php
 
@@ -41,32 +43,38 @@ use CardanoPhp\CIP8Verifier\DTO\VerificationRequest;
 use CardanoPhp\CIP8Verifier\Exception\CIP8VerificationException;
 
 try {
+
     // Your verification data
     $request = new VerificationRequest(
-    signatureCbor: "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108",
-    signatureKey: "a4010103272006215820eb59d52fbd257d3f8f8f51dd59b2013092763fc9cbc109d32d837920be5e62be",
-    walletAuthChallengeHex: "31633364353630312d386563632d343264662d623162302d306132393464306134656435",
-    stakeKeyAddress: "stake_test1upafv37jqjy8pgrjdauxyxrruqme0hqhh9ryww34mm297agc0f3vc",
-    networkMode: 0
-);
-
-// Verify the signature
-$verifier = CIP8Verifier::create();
-$result = $verifier->verify($request);
-
-// Check results
-if ($result->isValid) {
-    echo "✅ Signature is valid!\n";
-    echo "Wallet matches: " . ($result->walletMatches ? 'Yes' : 'No') . "\n";
-    echo "Payload matches: " . ($result->payloadMatches ? 'Yes' : 'No') . "\n";
+        signatureCbor: "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108",
+        signatureKey: "a4010103272006215820eb59d52fbd257d3f8f8f51dd59b2013092763fc9cbc109d32d837920be5e62be",
+        challengeHex: "31633364353630312d386563632d343264662d623162302d306132393464306134656435",
+        expectedSignerStakeAddress: "stake_test1upafv37jqjy8pgrjdauxyxrruqme0hqhh9ryww34mm297agc0f3vc",
+        networkMode: 0
+    );
+    
+    // Verify the signature
+    $verifier = CIP8Verifier::create();
+    $result = $verifier->verify($request);
+    
+    // Check results
+    if ($result->isValid) {
+        echo "✅ Signature is valid!\n";
+    } else {
+        echo "❌ Signature verification failed\n";
+    }
+    echo "Stake address matches: " . ($result->stakeAddressMatches ? 'Yes' : 'No') . "\n";
+    echo "Challenge matches: " . ($result->challengeMatches ? 'Yes' : 'No') . "\n";
     echo "Signature validates: " . ($result->signatureValidates ? 'Yes' : 'No') . "\n";
-} else {
-    echo "❌ Signature verification failed\n";
-}
+    
 } catch (CIP8VerificationException $e) {
+
     echo "❌ Verification error: " . $e->getMessage() . "\n";
+    
 } catch (Throwable $e) {
+
     echo "❌ Unexpected error: " . $e->getMessage() . "\n";
+    
 }
 ```
 
@@ -94,12 +102,12 @@ Input data structure for verification requests.
 new VerificationRequest(
     string $signatureCbor,          // CBOR-encoded signature data
     string $signatureKey,           // Public key in CBOR format
-    string $walletAuthChallengeHex, // Challenge message to verify
-    string $stakeKeyAddress,        // Expected stake address
+    string $challengeHex,                 // Challenge message to verify
+string $expectedSignerStakeAddress,   // Expected stake address
     int $networkMode                // Network mode (0=testnet, 1=mainnet)
 )
 
-// Factory method from array
+// Factory method from an array
 VerificationRequest::fromArray(array $data): VerificationRequest
 ```
 
@@ -110,8 +118,8 @@ Output data structure containing verification results.
 ```php
 readonly class VerificationResult {
     public bool $isValid;              // Overall validation result
-    public bool $walletMatches;        // Wallet address validation
-    public bool $payloadMatches;       // Payload content validation  
+    public bool $stakeAddressMatches;  // Stake address validation
+public bool $challengeMatches;     // Challenge content validation  
     public bool $signatureValidates;   // Cryptographic signature validation
 }
 
@@ -119,7 +127,7 @@ readonly class VerificationResult {
 $result->toArray(): array
 
 // Factory method
-VerificationResult::createValid(bool $walletMatches, bool $payloadMatches, bool $signatureValidates): VerificationResult
+VerificationResult::createValid(bool $stakeAddressMatches, bool $challengeMatches, bool $signatureValidates): VerificationResult
 ```
 
 ### Exception Hierarchy
@@ -153,8 +161,8 @@ use CardanoPhp\CIP8Verifier\CIP8Verifier;
 $event = [
     'signatureCbor' => '84582aa201276761646472657373...',
     'signatureKey' => 'a4010103272006215820eb59d52f...',
-    'walletAuthChallengeHex' => '31633364353630312d386563632d...',
-    'stakeKeyAddress' => 'stake_test1upafv37jqjy8p...',
+    'challengeHex' => '31633364353630312d386563632d...',
+'expectedSignerStakeAddress' => 'stake_test1upafv37jqjy8p...',
     'networkMode' => 0
 ];
 

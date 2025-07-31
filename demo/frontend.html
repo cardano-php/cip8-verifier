@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Frontend Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="container py-5">
+    <h1>Frontend Demo</h1>
+    <em>Please note; this demo is hardcoded to work with <strong>Eternl</strong> wallet only</em>
+    <br><br>
+    <form>
+        <div class="mb-3">
+            <label for="messageToSign" class="form-label">Message to Sign</label>
+            <textarea class="form-control" id="messageToSign">I Love Cardano</textarea>
+        </div>
+        <button type="button" id="connectAndSign" class="btn btn-primary">Connect Wallet & Sign Data</button>
+    </form>
+    <div id="result" class="alert alert-info">Ready</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="module">
+    import * as CSL from 'https://cdn.jsdelivr.net/npm/@emurgo/cardano-serialization-lib-asmjs@13.2.1/cardano_serialization_lib.js';
+    import { Buffer } from 'https://cdn.jsdelivr.net/npm/buffer@6.0.3/+esm';
+    (async function ($) {
+
+        const $connectAndSign = $('button#connectAndSign');
+        const $result = $('div#result');
+        const $messageToSign = $('textarea#messageToSign');
+
+        const bin2hex = (value) => {
+          const encoder = new TextEncoder();
+          const bytes = encoder.encode(value);
+          let hex = '';
+          for (const byte of bytes) {
+            hex += byte.toString(16).padStart(2, '0');
+          }
+          return hex;
+        }
+
+        $connectAndSign.click(async function () {
+            try {
+
+                // Validate input
+                if ($messageToSign.val().length <= 0) {
+                    $result.html('Message to Sign cannot be empty.');
+                    return;
+                }
+
+                // Reset input
+                $result.html('Ready');
+
+                // Connect wallet
+                const walletConnection = await window.cardano.eternl.enable();
+                const networkMode = await walletConnection.getNetworkId();
+
+                // Parse the wallet stake address
+                const rewardAddresses = await walletConnection.getRewardAddresses();
+                const stakeAddressCbor = rewardAddresses[0];
+                const stakeKey = CSL.Address.from_bytes(Buffer.from(stakeAddressCbor, 'hex'));
+                const expectedSignerStakeAddress = stakeKey.to_bech32(networkMode ? 'stake' : 'stake_test');
+
+                // Hex encodes the message to sign
+                const challengeHex = bin2hex($messageToSign.val());
+
+                // Sign the payload with connected wallet
+                const signedPayload = await walletConnection.signData(stakeAddressCbor, challengeHex);
+                const signatureCbor = signedPayload.signature;
+                const signatureKey = signedPayload.key;
+
+                // Generate result output
+                $result.html(`
+                    <div class="mb-3">
+                        <label class="form-label"><strong>signatureCbor</strong></label>
+                        <textarea class="form-control" rows="3">${signatureCbor}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>signatureKey</strong></label>
+                        <textarea class="form-control" rows="1">${signatureKey}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>challengeHex</strong></label>
+                        <textarea class="form-control" rows="1">${challengeHex}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>expectedSignerStakeAddress</strong></label>
+                        <textarea class="form-control" rows="1">${expectedSignerStakeAddress}</textarea>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label"><strong>networkMode</strong></label>
+                        <textarea class="form-control" rows="1">${networkMode}</textarea>
+                    </div>
+                `);
+
+            } catch (e) {
+
+                // Handle error
+                console.error(e);
+                $result.html(`There was an error: <strong>${e.info || e}</strong>`);
+
+            }
+        });
+
+    })(jQuery);
+</script>
+</body>
+</html>

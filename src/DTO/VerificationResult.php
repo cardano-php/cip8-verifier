@@ -6,8 +6,8 @@ readonly class VerificationResult
 {
     public function __construct(
         public bool $isValid,
-        public bool $walletMatches,
-        public bool $payloadMatches,
+        public bool $stakeAddressMatches,
+        public bool $challengeMatches,
         public bool $signatureValidates
     ) {}
 
@@ -15,18 +15,18 @@ readonly class VerificationResult
     {
         return [
             'isValid' => $this->isValid,
-            'walletMatches' => $this->walletMatches,
-            'payloadMatches' => $this->payloadMatches,
+            'stakeAddressMatches' => $this->stakeAddressMatches,
+            'challengeMatches' => $this->challengeMatches,
             'signatureValidates' => $this->signatureValidates
         ];
     }
 
-    public static function createValid(bool $walletMatches, bool $payloadMatches, bool $signatureValidates): self
+    public static function createValid(bool $stakeAddressMatches, bool $challengeMatches, bool $signatureValidates): self
     {
         return new self(
-            $walletMatches && $payloadMatches && $signatureValidates,
-            $walletMatches,
-            $payloadMatches,
+            $stakeAddressMatches && $challengeMatches && $signatureValidates,
+            $stakeAddressMatches,
+            $challengeMatches,
             $signatureValidates
         );
     }

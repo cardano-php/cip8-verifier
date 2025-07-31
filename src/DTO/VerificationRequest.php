@@ -7,8 +7,8 @@ readonly class VerificationRequest
     public function __construct(
         public string $signatureCbor,
         public string $signatureKey,
-        public string $walletAuthChallengeHex,
-        public string $stakeKeyAddress,
+        public string $challengeHex,
+        public string $expectedSignerStakeAddress,
         public int $networkMode
     ) {}
 
@@ -17,8 +17,8 @@ readonly class VerificationRequest
         return new self(
             $data['signatureCbor'],
             $data['signatureKey'],
-            $data['walletAuthChallengeHex'],
-            $data['stakeKeyAddress'],
+            $data['challengeHex'],
+            $data['expectedSignerStakeAddress'],
             $data['networkMode']
         );
     }

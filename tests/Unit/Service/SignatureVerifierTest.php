@@ -31,13 +31,13 @@ describe('SignatureVerifier', function () {
 
     test('verifyPayload validates correct payload with demo data', function () {
         $signatureCbor = "84582aa201276761646472657373581de07a9647d2048870a0726f78621863e03797dc17b946473a35ded45f75a166686173686564f4582431633364353630312d386563632d343264662d623162302d3061323934643061346564355840d40e65ebb258bd48d04092f485b845a6c0c9b1728e896c8364e51e1b6d67cd2c36dc17ad52409671a8ac8e2376e3bf138869621d03c28841a50cd68bc34fa108";
-        $walletAuthChallengeHex = "31633364353630312d386563632d343264662d623162302d306132393464306134656435";
+        $challengeHex = "31633364353630312d386563632d343264662d623162302d306132393464306134656435";
         
         $parser = new \CardanoPhp\CIP8Verifier\Service\CoseParser();
         $coseData = $parser->parseCoseSign1(hex2bin($signatureCbor));
         
         $verifier = new SignatureVerifier();
-        $isValid = $verifier->verifyPayload($coseData, $walletAuthChallengeHex);
+        $isValid = $verifier->verifyPayload($coseData, $challengeHex);
         
         expect($isValid)->toBeTrue();
     });
