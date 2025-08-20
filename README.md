@@ -1,7 +1,7 @@
 # CIP8 Verifier
 
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D8.1-blue.svg)](https://php.net/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/cardano-php/cip8-verifier)](LICENSE)
 
 A robust, production-ready PHP library for verifying Cardano CIP-8 signed messages. This library provides a clean, type-safe API for validating cryptographic signatures from Cardano wallets.
 
